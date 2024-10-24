@@ -24,6 +24,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/patterns")
+@CrossOrigin(origins = "*")
 public class PatternController {
     private PatternService patternService;
 
@@ -31,7 +32,7 @@ public class PatternController {
     public PatternController(PatternService patternService) {
         this.patternService = patternService;
     }
-	@CrossOrigin(origins = "http://localhost:3000")
+	
 	@GetMapping("")
 	public ResponseEntity<?> getPatterns(
     @RequestParam(value = "ownerId", required = false) Long ownerId,
@@ -58,7 +59,7 @@ public class PatternController {
     
     return ResponseEntity.ok(pagedModel);
 }
-@CrossOrigin(origins = "http://localhost:3000")
+
 	@PostMapping
     public ResponseEntity<Object> createPattern(@Valid @RequestBody Pattern pattern, BindingResult bindingResult) {
         // Handle validation errors
@@ -73,12 +74,12 @@ public class PatternController {
         Pattern savedPattern = patternService.save(pattern);
         return new ResponseEntity<>(savedPattern, HttpStatus.CREATED);
     }
-	@CrossOrigin(origins = "http://localhost:3000")
+	
 	@GetMapping("/{id}")
 	public Pattern getPatternById(@PathVariable long id) {
 		return patternService.findById(id);
 	}
-	@CrossOrigin(origins = "http://localhost:3000")
+	
     @PatchMapping("/{id}")
     public ResponseEntity<Object> updatePattern(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
         try {
@@ -90,7 +91,7 @@ public class PatternController {
             return new ResponseEntity<>(Map.of("IllegalArgumentException",e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
-	@CrossOrigin(origins = "http://localhost:3000")
+	
 	@DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePattern(@PathVariable Long id) {
         patternService.deleteById(id);
